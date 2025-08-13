@@ -12,6 +12,12 @@ Route::get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('tasks', TaskController::class);
+
+    Route::get('tasksbystatus', [TaskController::class, 'getTasksByStatus']);
+
+    Route::get('search', [TaskController::class, 'search']);
+
+    Route::get('sorting', [TaskController::class, 'sorting']);
 });
 
 
