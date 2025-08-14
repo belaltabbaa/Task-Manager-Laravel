@@ -22,8 +22,10 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>'required|string|max:15',
-            'status'=>'required|in:pending,in_progress,completed'
+            'title' => 'required|string|max:15',
+            'status' => 'required|in:pending,in_progress,completed',
+            'due_date' => 'date',
+            'attachment'=>'nullable|file|mimes:pdf,jpg,png,docx|max:10240'
         ];
     }
 }

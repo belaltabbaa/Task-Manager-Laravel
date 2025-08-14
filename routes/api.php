@@ -13,6 +13,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('tasks', TaskController::class);
 
+    Route::get('alltasksforadmin',[TaskController::class,'alltasksforadmin'])->middleware('IsAdmin');
+
+    Route::get('tasksbyduedate',[TaskController::class,'showbyduedate']);
+
     Route::get('tasksbystatus', [TaskController::class, 'getTasksByStatus']);
 
     Route::get('search', [TaskController::class, 'search']);

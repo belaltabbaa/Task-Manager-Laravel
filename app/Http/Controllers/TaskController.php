@@ -5,11 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    public function alltasksforadmin(){
+        $task = Task::with('user')->get();
+        return TaskResource::collection($task);
+    }
+
+    //عرض المهام القريبة من تاريخ التسليم
+    public function showbyduedate(){
+        $today = Carbon::today();
+        $limitDate = Carbon::today()->addDays(3);
+        $tasks = Task::whereBetween('due_date',[$today, $limitDate])->orderBy('due_date','asc')->get();
+        return TaskResource::collection($tasks);
+    }
+    
     //ترتيب تلقائي حسب تاريخ الانشاء
     public function sorting(){
         $tasks = Task::orderBy("created_at","asc")->get();
@@ -50,6 +64,11 @@ class TaskController extends Controller
         $user_id = Auth::user()->id;
         $validateData = $request->validated();
         $validateData['user_id'] = $user_id;
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $path = $file->store('attachment','public');
+            $validateData['attachment'] = $path;
+        }
         $task = Task::create($validateData);
         return response()->json($task, 200);
     }

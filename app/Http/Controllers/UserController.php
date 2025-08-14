@@ -17,7 +17,8 @@ class UserController extends Controller
             [
                 'name' => 'required|string|max:100',
                 'email' => 'required|string|email|max:150|unique:users,email',
-                'password' => 'required|min:8|confirmed'
+                'password' => 'required|min:8|confirmed',
+                'role'=>'sometimes|in:admin,user|nullable'
             ]
         );
         $user = User::create(
@@ -25,6 +26,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'role'=>$request->role,
             ]
         );
         return response()->json(

@@ -18,6 +18,8 @@ class TaskResource extends JsonResource
             'id'=>$this->id,
             'title'=> $this->title,
             'status'=> $this->status,
+            'due_date'=> $this->due_date,
+            'attachment'=> $this->attachment,
             'user'=>new UserResource($this->whenLoaded('user')),
         ];
     }
