@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    //عرض كل المهام للادمن
     public function alltasksforadmin(){
         $task = Task::with('user')->get();
         return TaskResource::collection($task);
